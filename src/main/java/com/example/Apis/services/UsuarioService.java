@@ -1,6 +1,7 @@
 package com.example.Apis.services;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +16,35 @@ public class UsuarioService {
 
     public ArrayList<UsuarioModel> obtenerUsuarios() {
 
-        return (ArrayList<UsuarioModel>) usuarioRepository.findAll();
+        return (ArrayList<UsuarioModel>) this.usuarioRepository.findAll();
 
     }
 
     public UsuarioModel guardarUsuario(UsuarioModel usuario) {
 
-        return usuarioRepository.save(usuario);
+        return this.usuarioRepository.save(usuario);
 
     }
 
     public ArrayList<UsuarioModel> obtenerUsuariosActivos(Boolean activo) {
 
-        return (ArrayList<UsuarioModel>) usuarioRepository.findByActivo(activo);
+        return this.usuarioRepository.findByActivo(activo);
 
     }
 
+    public Optional<UsuarioModel> obtenerPorID(Long id) {
+        return this.usuarioRepository.findById(id);
+    }
+
+    public boolean eliminarUsuario(Long id) {
+
+        Boolean respuesta = false;
+        try {
+            this.usuarioRepository.deleteById(id);
+            respuesta = true;
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        return respuesta;
+    }
 }

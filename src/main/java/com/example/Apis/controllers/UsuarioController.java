@@ -1,9 +1,13 @@
 package com.example.Apis.controllers;
 
 import java.util.ArrayList;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,15 +30,21 @@ public class UsuarioController {
     }
 
     @PostMapping()
-    public UsuarioModel guardarUsuario(@RequestBody UsuarioModel nuevoUsuario) {
+    public UsuarioModel guardarUsuario(@RequestBody @Valid UsuarioModel nuevoUsuario) {
         return this.usuarioService.guardarUsuario(nuevoUsuario);
-
     }
 
     @GetMapping("/activos")
     public ArrayList<UsuarioModel> obtenerUsuariosActivos() {
 
-        return (ArrayList<UsuarioModel>) usuarioService.obtenerUsuariosActivos(true);
+        return (ArrayList<UsuarioModel>) this.usuarioService.obtenerUsuariosActivos(true);
+
+    }
+
+    @GetMapping(path = "/{id}")
+    public Optional<UsuarioModel> obtenerUsuariosPorID(@PathVariable("id") Long id) {
+
+        return this.usuarioService.obtenerPorID(id);
 
     }
 }
